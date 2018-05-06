@@ -2,131 +2,120 @@
   .container
     .row
       .col
-        select.form-control
+        strong Note:
+        select.form-control(v-model="note" @change="setScaleNotes()")
           option(v-for="note in notes") {{note}}
       .col
-        select.form-control
+        strong Scale:
+        select.form-control(v-model="scale" @change="setScaleNotes(); setScaleChords();")
           option(v-for="scale in scales") {{scale}}
     hr
-    .text-center.mb-3
-    .row(v-for="i in tuning")
-      .col.p-0.border(v-for="note in guitar.notes.slice(i, 24 + i - 1)" @click="start(note.name, note.octave)")
-        .text-lowercase.text-center {{note.name + note.octave}}
+    Guitar(:scaleNotes="scaleNotes" :chordNotes="chordNotes")
+    hr
+    h2 Select a chord
+    .row
+      .col
+        strong Scale Note:
+        select.form-control(v-model="scaleNote")
+          option(v-for="scaleNote in scaleNotes") {{scaleNote}}
+      .col
+        strong Scale Chord:
+        select.form-control(v-model="scaleChord")
+          option(v-for="scaleChord in scaleChords") {{scaleChord}}
+    //- pre {{$data}}
 </template>
 
 <script>
 import axios from "axios";
+import Guitar from "@/components/Guitar";
 
 export default {
   data() {
     return {
-      notes: ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"],
+      note: "C",
+      notes: ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"],
+      scale: null,
       scales: [],
-      tuning: {
-        1: 24,
-        2: 19,
-        3: 15,
-        4: 10,
-        5: 5,
-        6: 0
-      },
-      guitar: {
-        notes: [
-          { name: "E", octave: 2 },
-          { name: "F", octave: 2 },
-          { name: "Gb", octave: 2 },
-          { name: "G", octave: 2 },
-          { name: "Ab", octave: 2 },
-          { name: "A", octave: 2 },
-          { name: "Bb", octave: 2 },
-          { name: "B", octave: 2 },
-          { name: "C", octave: 3 },
-          { name: "Db", octave: 3 },
-          { name: "D", octave: 3 },
-          { name: "Eb", octave: 3 },
-          { name: "E", octave: 3 },
-          { name: "F", octave: 3 },
-          { name: "Gb", octave: 3 },
-          { name: "G", octave: 3 },
-          { name: "Ab", octave: 3 },
-          { name: "A", octave: 3 },
-          { name: "Bb", octave: 3 },
-          { name: "B", octave: 3 },
-          { name: "C", octave: 4 },
-          { name: "Db", octave: 4 },
-          { name: "D", octave: 4 },
-          { name: "Eb", octave: 4 },
-          { name: "E", octave: 4 },
-          { name: "F", octave: 4 },
-          { name: "Gb", octave: 4 },
-          { name: "G", octave: 4 },
-          { name: "Ab", octave: 4 },
-          { name: "A", octave: 4 },
-          { name: "Bb", octave: 4 },
-          { name: "B", octave: 4 },
-          { name: "C", octave: 5 },
-          { name: "Db", octave: 5 },
-          { name: "D", octave: 5 },
-          { name: "Eb", octave: 5 },
-          { name: "E", octave: 5 },
-          { name: "F", octave: 5 },
-          { name: "Gb", octave: 5 },
-          { name: "G", octave: 5 },
-          { name: "Ab", octave: 5 },
-          { name: "A", octave: 5 },
-          { name: "Bb", octave: 5 },
-          { name: "B", octave: 5 },
-          { name: "C", octave: 6 },
-          { name: "Db", octave: 6 },
-          { name: "D", octave: 6 }
-        ]
-      }
+      scaleNote: null,
+      scaleNotes: [],
+      scaleChord: null,
+      scaleChords: [],
+      chordNotes: []
     };
+  },
+  components: {
+    Guitar
   },
   methods: {
     getScaleNotes(note, tonic) {
       return axios
-        .get("http://localhost:8080/scale/notes", {
+        .get("https://scalemusicapi.herokuapp.com/scale/notes", {
           params: {
             note,
             tonic
           }
         })
-        .then(res => res.data);
+        .then(res => {
+          return res.data
+        });
     },
     getScaleNames() {
       return axios
-        .get("http://localhost:8080/scale/names")
-        .then(res => res.data);
+        .get("https://scalemusicapi.herokuapp.com/scale/names")
+        .then(res => {
+          return res.data
+        });
     },
-    getNoteFreq(note, oct) {
+    getScaleChords(scale) {
       return axios
-        .get("http://localhost:8080/note/freq", {
+        .get("https://scalemusicapi.herokuapp.com/scale/chords", {
           params: {
-            note,
-            oct
+            scale
           }
         })
-        .then(res => res.data);
+        .then(res => {
+          return res.data
+        });
     },
-    start(name, octave) {
-      let ctx = new AudioContext();
-      let osc = ctx.createOscillator();
-      this.getNoteFreq(name, octave).then(res => {
-        osc.frequency.value = res;
-        osc.start();
-        osc.connect(ctx.destination);
-        osc.stop(ctx.currentTime + 0.2);
+    getChordNotes(chord) {
+      return axios
+        .get("https://scalemusicapi.herokuapp.com/chord/notes", {
+          params: {
+            chord
+          }
+        })
+        .then(res => {
+          return res.data
+        });
+    },
+    setScales() {
+      this.getScaleNames().then(res => {
+        this.scales = res;
+        this.scale = this.scales[0];
+        this.setScaleNotes();
+        this.setScaleChords();
+      });
+    },
+    setScaleNotes() {
+      this.getScaleNotes(this.note, this.scale).then(res => {
+        this.scaleNotes = res;
+        this.scaleNote = this.scaleNotes[0];
+      });
+    },
+    setScaleChords() {
+      this.getScaleChords(this.scale).then(res => {
+        this.scaleChords = res;
+        this.scaleChord = this.scaleChords[0];
       });
     }
   },
-  created() {
-    // this.getScaleNotes("C", "major").then(res => {
-    //   this.notes = res;
+  mounted() {
+    this.setScales();
+    // this.scaleChords.forEach(element => {
+    //   this.getChordNotes(this.element).then(res => {
+    //     this.element.notes = res;
+    //   });
     // });
-    this.getScaleNames().then(res => {
-      this.scales = res;
-    });
   }
 };
 </script>
