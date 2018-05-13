@@ -1,8 +1,8 @@
 <template lang="pug">
   .mb-3
     .row(v-for="i in tuning")
-      .col.p-0.border(v-for="note in guitar.notes.slice(i, 24 + i - 1)" @click="start(note.frequency)")
-        .text-lowercase.text-center(:class="{'table-success':scaleNotes.includes(note.name)}")
+      .col.p-0.border(v-for="note in guitar.notes.slice(i, 13 + i - 1)" @click="start(note.frequency)")
+        .text-lowercase.text-center(:class="{['btn-' + colors[scaleNotes.indexOf(note.name)]]: scaleNotes.includes(note.name)}")
           span {{note.name + note.octave}}
 </template>
 
@@ -10,12 +10,14 @@
 import axios from "axios";
 
 export default {
-  props: ["scaleNotes"],
+  props: ["scaleNotes", "colors"],
   data() {
     return {
+      ctx: null,
+      osc: null,
       tuning: {
         1: 28,
-        2: 24,
+        2: 23,
         3: 19,
         4: 14,
         5: 9,
@@ -90,12 +92,11 @@ export default {
         .then(res => res.data);
     },
     start(frequency) {
-      let ctx = new AudioContext();
-      let osc = ctx.createOscillator();
+      let osc = this.ctx.createOscillator();
       osc.frequency.value = frequency;
       osc.start();
-      osc.connect(ctx.destination);
-      osc.stop(ctx.currentTime + 0.2);
+      osc.connect(this.ctx.destination);
+      osc.stop(this.ctx.currentTime + 0.2);
     }
   },
   mounted() {
@@ -104,6 +105,7 @@ export default {
         note.frequency = res;
       })
     });
+    this.ctx = new AudioContext();
   }
 };
 </script>
