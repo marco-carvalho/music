@@ -1,27 +1,19 @@
 <template lang="pug">
   .container
     .row
-      .col
+      .col.mb-3
         strong Note:
         select.form-control(v-model="note" @change="setScaleNotes()")
           option(v-for="note in notes") {{note}}
-      .col
+      .col.mb-3
         strong Scale:
-        select.form-control(v-model="scale" @change="setScaleNotes(); setScaleChords();")
+        select.form-control(v-model="scale" @change="setScaleNotes()")
           option(v-for="scale in scales") {{scale}}
-    hr
-    Guitar(:scaleNotes="scaleNotes" :chordNotes="chordNotes")
-    hr
-    h2 Select a chord
     .row
-      .col
-        strong Scale Note:
-        select.form-control(v-model="scaleNote")
-          option(v-for="scaleNote in scaleNotes") {{scaleNote}}
-      .col
-        strong Scale Chord:
-        select.form-control(v-model="scaleChord")
-          option(v-for="scaleChord in scaleChords") {{scaleChord}}
+      .col.text-center(v-for="note in notes")
+        button.btn(:class="{['btn-' + colors[scaleNotes.indexOf(note)]]: scaleNotes.includes(note)}") {{note}}
+    hr
+    Guitar(:scaleNotes="scaleNotes" :chordNotes="chordNotes" :colors="colors")
     //- pre {{$data}}
 </template>
 
@@ -40,7 +32,16 @@ export default {
       scaleNotes: [],
       scaleChord: null,
       scaleChords: [],
-      chordNotes: []
+      chordNotes: [],
+      colors: [
+        "red",
+        "orange",
+        "yellow",
+        "green",
+        "blue",
+        "purple",
+        "pink",
+      ]
     };
   },
   components: {
@@ -55,45 +56,18 @@ export default {
             tonic
           }
         })
-        .then(res => {
-          return res.data
-        });
+        .then(res => res.data);
     },
     getScaleNames() {
       return axios
         .get("https://scalemusicapi.herokuapp.com/scale/names")
-        .then(res => {
-          return res.data
-        });
-    },
-    getScaleChords(scale) {
-      return axios
-        .get("https://scalemusicapi.herokuapp.com/scale/chords", {
-          params: {
-            scale
-          }
-        })
-        .then(res => {
-          return res.data
-        });
-    },
-    getChordNotes(chord) {
-      return axios
-        .get("https://scalemusicapi.herokuapp.com/chord/notes", {
-          params: {
-            chord
-          }
-        })
-        .then(res => {
-          return res.data
-        });
+        .then(res => res.data);
     },
     setScales() {
       this.getScaleNames().then(res => {
         this.scales = res;
         this.scale = this.scales[0];
         this.setScaleNotes();
-        this.setScaleChords();
       });
     },
     setScaleNotes() {
@@ -101,21 +75,10 @@ export default {
         this.scaleNotes = res;
         this.scaleNote = this.scaleNotes[0];
       });
-    },
-    setScaleChords() {
-      this.getScaleChords(this.scale).then(res => {
-        this.scaleChords = res;
-        this.scaleChord = this.scaleChords[0];
-      });
     }
   },
   mounted() {
     this.setScales();
-    // this.scaleChords.forEach(element => {
-    //   this.getChordNotes(this.element).then(res => {
-    //     this.element.notes = res;
-    //   });
-    // });
   }
 };
 </script>
