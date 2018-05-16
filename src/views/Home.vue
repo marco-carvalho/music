@@ -1,13 +1,13 @@
 <template lang="pug">
   .container
-    .row
+    .row(@change="setScaleNotes()")
       .col.mb-3
         strong Note:
-        select.form-control(v-model="note" @change="setScaleNotes()")
+        select.form-control(v-model="note")
           option(v-for="note in notes") {{note}}
       .col.mb-3
         strong Scale:
-        select.form-control(v-model="scale" @change="setScaleNotes()")
+        select.form-control(v-model="scale")
           option(v-for="scale in scales") {{scale}}
     .row
       .col.text-center(v-for="note in notes")
