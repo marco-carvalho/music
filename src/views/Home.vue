@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       note: "C",
-      notes: ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"],
+      notes: ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"],
       scale: null,
       scales: [],
       scaleNote: null,
