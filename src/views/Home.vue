@@ -7,13 +7,14 @@
           option(v-for="note in notes") {{note}}
       .col.mb-3
         strong Scale:
-        select.form-control(v-model="scale")
+        select.form-control(v-model="scale" )
           option(v-for="scale in scales") {{scale}}
     .row
-      .col.text-center(v-for="note in notes")
+      .col.p-0.text-center(v-for="note in notesByNote")
         button.btn(:class="{['btn-' + colorsByScale[scaleNotes.indexOf(note)]]: scaleNotes.includes(note)}") {{note}}
     hr
-    Guitar(:scaleNotes="scaleNotes" :colors="colorsByScale")
+    .container-fluid
+      Guitar(:scaleNotes="scaleNotes" :colors="colorsByScale")
     pre {{$data}}
 </template>
 
@@ -42,6 +43,16 @@ export default {
     };
   },
   computed: {
+    notesByNote() {
+      return this.notes.slice(
+        this.notes.indexOf(this.note)
+      ).concat(
+        this.notes.slice(
+          0,
+          this.notes.indexOf(this.note)
+        )
+      );
+    },
     colorsByScale() {
       return this.colors.slice(
         this.scales.indexOf(this.scale)
