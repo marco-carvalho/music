@@ -11,10 +11,10 @@
           option(v-for="scale in scales") {{scale}}
     .row
       .col.text-center(v-for="note in notes")
-        button.btn(:class="{['btn-' + colors[scaleNotes.indexOf(note)]]: scaleNotes.includes(note)}") {{note}}
+        button.btn(:class="{['btn-' + colorsByScale[scaleNotes.indexOf(note)]]: scaleNotes.includes(note)}") {{note}}
     hr
-    Guitar(:scaleNotes="scaleNotes" :chordNotes="chordNotes" :colors="colors")
-    //- pre {{$data}}
+    Guitar(:scaleNotes="scaleNotes" :colors="colorsByScale")
+    pre {{$data}}
 </template>
 
 <script>
@@ -30,9 +30,6 @@ export default {
       scales: [],
       scaleNote: null,
       scaleNotes: [],
-      scaleChord: null,
-      scaleChords: [],
-      chordNotes: [],
       colors: [
         "red",
         "orange",
@@ -43,6 +40,18 @@ export default {
         "pink",
       ]
     };
+  },
+  computed: {
+    colorsByScale() {
+      return this.colors.slice(
+        this.scales.indexOf(this.scale)
+      ).concat(
+        this.colors.slice(
+          0,
+          this.scales.indexOf(this.scale)
+        )
+      );
+    }
   },
   components: {
     Guitar
