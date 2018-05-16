@@ -92,6 +92,7 @@ export default {
         .then(res => res.data);
     },
     start(frequency) {
+      this.ctx.resume();
       let osc = this.ctx.createOscillator();
       osc.frequency.value = frequency;
       osc.start();
