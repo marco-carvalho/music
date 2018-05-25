@@ -10,11 +10,12 @@
         select.form-control(v-model="scale" )
           option(v-for="scale in scales") {{scale}}
     .row
-      .col.p-0.text-center(v-for="note in notesByNote")
-        button.btn(:class="{['btn-' + colorsByScale[scaleNotes.indexOf(note)]]: scaleNotes.includes(note)}") {{note}}
+      .col(v-for="(note, index) in notesByNote")
+        .p-1.rounded.border.text-center(:class="{['bg-' + colorsByScale[scaleNotes.indexOf(note)]]: scaleNotes.includes(note)}")
+          .font-weight-bold {{note}}
     hr
     .container-fluid
-      Guitar(:scaleNotes="scaleNotes" :colors="colorsByScale")
+      Guitar(:scaleNotes="scaleNotes" :colorsByScale="colorsByScale")
     pre {{$data}}
 </template>
 
@@ -33,11 +34,16 @@ export default {
       scaleNotes: [],
       colors: [
         "red",
+        // "red-orange",
         "orange",
+        // "orange-yellow",
         "yellow",
         "green",
+        // "green-blue",
         "blue",
+        // "blue-purple",
         "purple",
+        // "purple-pink",
         "pink",
       ]
     };
