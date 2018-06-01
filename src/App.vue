@@ -7,7 +7,7 @@
   background: repeating-linear-gradient(45deg, $primary, $primary 10px, $secondary 10px, $secondary 20px)
 
 .text-shadow
-  text-shadow: 1px 1px 1px #000
+  text-shadow: -1px -1px 0 #333, 1px -1px 0 #333, -1px 1px 0 #333, 1px 1px 0 #333
 .bg
   &-white
     background-color: var(--white)
