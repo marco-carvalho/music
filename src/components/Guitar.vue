@@ -7,8 +7,6 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   props: ["noteColor"],
   data() {
@@ -81,7 +79,7 @@ export default {
   },
   methods: {
     getNoteFreq(note, oct) {
-      return axios
+      return this.axios
         .get("https://scalemusicapi.herokuapp.com/note/freq", {
           params: {
             note,
@@ -96,7 +94,7 @@ export default {
       osc.frequency.value = frequency;
       osc.start();
       osc.connect(this.ctx.destination);
-      osc.stop(this.ctx.currentTime + 0.2);
+      osc.stop(this.ctx.currentTime + 0.5);
     }
   },
   mounted() {

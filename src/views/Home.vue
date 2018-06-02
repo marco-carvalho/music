@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import Guitar from "@/components/Guitar";
 
 export default {
@@ -79,7 +78,7 @@ export default {
   },
   methods: {
     getScaleNotes(note, tonic) {
-      return axios
+      return this.axios
         .get("https://scalemusicapi.herokuapp.com/scale/notes", {
           params: {
             note,
@@ -89,7 +88,7 @@ export default {
         .then(res => res.data);
     },
     getScaleNames() {
-      return axios
+      return this.axios
         .get("https://scalemusicapi.herokuapp.com/scale/names")
         .then(res => res.data);
     },
