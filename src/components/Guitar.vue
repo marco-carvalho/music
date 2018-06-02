@@ -1,9 +1,9 @@
 <template lang="pug">
   div
     .row(v-for="i in tuning")
-      .col.p-0.border(v-for="note in guitar.notes.slice(i, 13 + i - 1)" @click="start(note.frequency)")
-        .text-lowercase.text-center(:class="{['btn-' + colors[scaleNotes.indexOf(note.name)]]: scaleNotes.includes(note.name)}")
-          span {{note.name + note.octave}}
+      .col.p-0.border(v-for="note in guitar.notes.slice(i, 12 + i)" @click="start(note.frequency)")
+        .text-center(:class="'bg-' + noteColor.find(x => x.note === note.name).color")
+          .font-weight-bold.text-white.text-shadow {{note.name + note.octave}}
 </template>
 
 <script>
@@ -76,8 +76,8 @@ export default {
           { name: "C#", octave: 6 },
           { name: "D", octave: 6 }
         ]
-      },
-    }
+      }
+    };
   },
   methods: {
     getNoteFreq(note, oct) {
@@ -103,7 +103,7 @@ export default {
     this.guitar.notes.forEach(note => {
       this.getNoteFreq(note.name, note.octave).then(res => {
         note.frequency = res;
-      })
+      });
     });
     this.ctx = new AudioContext();
   }
