@@ -29,24 +29,38 @@ export default {
     return {
       note: "C",
       notes: ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"],
+      colors: [
+        "white",
+        "white-red",
+        "red",
+        "red-orange",
+        "orange",
+        "yellow",
+        "yellow-green",
+        "green",
+        "green-blue",
+        "blue",
+        "blue-purple",
+        "purple"
+      ],
+      noteColor: [
+        { note: "C", color: "white" },
+        { note: "C#", color: "white-red" },
+        { note: "D", color: "red" },
+        { note: "D#", color: "red-orange" },
+        { note: "E", color: "orange" },
+        { note: "F", color: "yellow" },
+        { note: "F#", color: "yellow-green" },
+        { note: "G", color: "green" },
+        { note: "G#", color: "green-blue" },
+        { note: "A", color: "blue" },
+        { note: "A#", color: "blue-purple" },
+        { note: "B", color: "purple" }
+      ],
       scale: null,
       scales: [],
       scaleNote: null,
-      scaleNotes: [],
-      colors: [
-        "red",
-        // "red-orange",
-        "orange",
-        // "orange-yellow",
-        "yellow",
-        "green",
-        // "green-blue",
-        "blue",
-        // "blue-purple",
-        "purple",
-        // "purple-pink",
-        "pink",
-      ]
+      scaleNotes: []
     };
   },
   computed: {
