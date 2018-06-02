@@ -12,12 +12,11 @@
     hr
     .row
       .col(v-for="(note, index) in notesByNote")
-        .p-1.rounded.border.text-center(:class="{['bg-' + colorsByScale[scaleNotes.indexOf(note)]]: scaleNotes.includes(note)}")
-          .font-weight-bold {{note}}
+        .p-1.border.text-center(:class="'bg-' + colorsByNote[index]")
+          .font-weight-bold.text-white.text-shadow {{note}}
     hr
     .container-fluid
-      Guitar(:scaleNotes="scaleNotes" :colorsByScale="colorsByScale")
-    pre {{$data}}
+      Guitar(:noteColor="noteColor")
 </template>
 
 <script>
