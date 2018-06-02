@@ -65,24 +65,14 @@ export default {
   },
   computed: {
     notesByNote() {
-      return this.notes.slice(
-        this.notes.indexOf(this.note)
-      ).concat(
-        this.notes.slice(
-          0,
-          this.notes.indexOf(this.note)
-        )
-      );
+      return this.notes
+        .slice(this.notes.indexOf(this.note))
+        .concat(this.notes.slice(0, this.notes.indexOf(this.note)));
     },
-    colorsByScale() {
-      return this.colors.slice(
-        this.scales.indexOf(this.scale)
-      ).concat(
-        this.colors.slice(
-          0,
-          this.scales.indexOf(this.scale)
-        )
-      );
+    colorsByNote() {
+      return this.colors
+        .slice(this.notes.indexOf(this.note))
+        .concat(this.colors.slice(0, this.notes.indexOf(this.note)));
     }
   },
   components: {
