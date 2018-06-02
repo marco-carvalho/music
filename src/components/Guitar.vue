@@ -14,7 +14,6 @@ export default {
   data() {
     return {
       ctx: null,
-      osc: null,
       tuning: {
         1: 28,
         2: 23,
