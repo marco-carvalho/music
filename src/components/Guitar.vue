@@ -1,5 +1,5 @@
 <template lang="pug">
-  .mb-3
+  div
     .row(v-for="i in tuning")
       .col.p-0.border(v-for="note in guitar.notes.slice(i, 13 + i - 1)" @click="start(note.frequency)")
         .text-lowercase.text-center(:class="{['btn-' + colors[scaleNotes.indexOf(note.name)]]: scaleNotes.includes(note.name)}")
