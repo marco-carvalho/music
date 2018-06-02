@@ -10,7 +10,7 @@
 import axios from "axios";
 
 export default {
-  props: ["scaleNotes", "colors"],
+  props: ["noteColor"],
   data() {
     return {
       ctx: null,
