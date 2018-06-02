@@ -9,6 +9,7 @@
         strong Scale:
         select.form-control(v-model="scale" )
           option(v-for="scale in scales") {{scale}}
+    hr
     .row
       .col(v-for="(note, index) in notesByNote")
         .p-1.rounded.border.text-center(:class="{['bg-' + colorsByScale[scaleNotes.indexOf(note)]]: scaleNotes.includes(note)}")
