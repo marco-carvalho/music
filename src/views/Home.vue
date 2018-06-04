@@ -16,7 +16,7 @@
           .font-weight-bold.text-white.text-shadow {{note}}
     hr
     .container-fluid
-      Guitar(:noteColor="noteColor")
+      Guitar(:noteColor="noteColor" :scaleNotes="scaleNotes")
 </template>
 
 <script>
@@ -42,8 +42,8 @@ export default {
         "purple"
       ],
       noteColor: [
-        { note: "C", color: "white" },
-        { note: "C#", color: "white-red" },
+        { note: "C", color: "gray" },
+        { note: "C#", color: "gray-red" },
         { note: "D", color: "red" },
         { note: "D#", color: "red-orange" },
         { note: "E", color: "orange" },

@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  props: ["noteColor"],
+  props: ["noteColor", "scaleNotes"],
   data() {
     return {
       ctx: null,
