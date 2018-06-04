@@ -28,8 +28,8 @@ export default {
       note: "C",
       notes: ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"],
       colors: [
-        "white",
-        "white-red",
+        "gray",
+        "gray-red",
         "red",
         "red-orange",
         "orange",

@@ -9,10 +9,10 @@
 .text-shadow
   text-shadow: -1px -1px 0 #333, 1px -1px 0 #333, -1px 1px 0 #333, 1px 1px 0 #333
 .bg
-  &-white
-    background-color: var(--white)
-  &-white-red
-    +stripes(var(--white), var(--red))
+  &-gray
+    background-color: var(--gray)
+  &-gray-red
+    +stripes(var(--gray), var(--red))
   &-red
     background-color: var(--red)
   &-red-orange
