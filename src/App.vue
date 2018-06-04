@@ -33,4 +33,11 @@
     +stripes(var(--blue), var(--purple))
   &-purple
     background-color: var(--purple)
+.opacity
+  &-25
+    opacity: .25
+  &-50
+    opacity: .50
+  &-75
+    opacity: .75
 </style>
