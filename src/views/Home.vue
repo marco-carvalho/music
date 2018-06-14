@@ -10,7 +10,7 @@
         select.form-control(v-model="scale" )
           option(v-for="scale in scales") {{scale}}
     hr
-    .row
+    .row.no-gutters
       .col(v-for="(note, index) in notesByNote")
         .p-1.border.text-center(:class="[scaleNotes.includes(note) ? ['bg-' + colorsByNote[index]] : 'opacity-25']")
           .font-weight-bold.text-white.text-shadow {{note}}
