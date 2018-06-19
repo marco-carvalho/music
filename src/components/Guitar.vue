@@ -103,7 +103,7 @@ export default {
         note.frequency = res;
       });
     });
-    this.ctx = new AudioContext();
+    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
   }
 };
 </script>
