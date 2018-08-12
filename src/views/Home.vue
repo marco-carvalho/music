@@ -91,7 +91,7 @@ export default {
   },
   async mounted() {
     const { data } = await scaleMusic.get("/scale/names");
-    this.scales = { data };
+    this.scales = data;
     this.scale = this.scales[0];
     this.setScaleNotes();
   }
