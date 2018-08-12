@@ -11,7 +11,7 @@ export default {
   props: ["noteColor", "scaleNotes"],
   data() {
     return {
-      ctx: null,
+      ctx: new (window.AudioContext || window.webkitAudioContext)(),
       tuning: {
         1: 28,
         2: 23,
@@ -103,7 +103,6 @@ export default {
         note.frequency = res;
       });
     });
-    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
   }
 };
 </script>
