@@ -7,6 +7,8 @@
 </template>
 
 <script>
+import scaleMusic from "@/services/scaleMusic"
+
 export default {
   props: ["noteColor", "scaleNotes"],
   data() {
@@ -78,16 +80,6 @@ export default {
     };
   },
   methods: {
-    getNoteFreq(note, oct) {
-      return this.axios
-        .get("https://scalemusicapi.herokuapp.com/note/freq", {
-          params: {
-            note,
-            oct
-          }
-        })
-        .then(res => res.data);
-    },
     start(frequency) {
       this.ctx.resume();
       let osc = this.ctx.createOscillator();
@@ -98,10 +90,14 @@ export default {
     }
   },
   mounted() {
-    this.guitar.notes.forEach(note => {
-      this.getNoteFreq(note.name, note.octave).then(res => {
-        note.frequency = res;
+    this.guitar.notes.forEach(async note => {
+      const {data} = await scaleMusic.get("note/freq", {
+        params: {
+          note: note.name,
+          oct: note.octave
+        }
       });
+      note.frequency = data;
     });
   }
 };

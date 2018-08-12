@@ -21,6 +21,7 @@
 
 <script>
 import Guitar from "@/components/Guitar";
+import scaleMusic from "@/services/scaleMusic";
 
 export default {
   data() {
@@ -77,37 +78,22 @@ export default {
     Guitar
   },
   methods: {
-    getScaleNotes(note, tonic) {
-      return this.axios
-        .get("https://scalemusicapi.herokuapp.com/scale/notes", {
-          params: {
-            note,
-            tonic
-          }
-        })
-        .then(res => res.data);
-    },
-    getScaleNames() {
-      return this.axios
-        .get("https://scalemusicapi.herokuapp.com/scale/names")
-        .then(res => res.data);
-    },
-    setScales() {
-      this.getScaleNames().then(res => {
-        this.scales = res;
-        this.scale = this.scales[0];
-        this.setScaleNotes();
+    async setScaleNotes() {
+      const { data } = await scaleMusic.get("/scale/notes", {
+        params: {
+          note: this.note,
+          tonic: this.scale
+        }
       });
-    },
-    setScaleNotes() {
-      this.getScaleNotes(this.note, this.scale).then(res => {
-        this.scaleNotes = res;
-        this.scaleNote = this.scaleNotes[0];
-      });
+      this.scaleNotes = data;
+      this.scaleNote = this.scaleNotes[0];
     }
   },
-  mounted() {
-    this.setScales();
+  async mounted() {
+    const { data } = await scaleMusic.get("/scale/names");
+    this.scales = { data };
+    this.scale = this.scales[0];
+    this.setScaleNotes();
   }
 };
 </script>
