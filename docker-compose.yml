@@ -3,6 +3,10 @@ version: '3'
 services:
   web:
     image: node
+    depends_on:
+    - "api"
+    environment:
+    - "apiurl=http://localhost:3000"
     command:
       - /bin/sh
       - -c
@@ -14,3 +18,10 @@ services:
       - .:/code
     ports:
       - "8080:8080"
+  api:
+    image: 
+      bernardoms/scalemusicapi:latest
+    environment:
+      - PORT=3000
+    ports: 
+    - "3000:3000"
