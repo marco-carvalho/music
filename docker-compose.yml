@@ -2,17 +2,18 @@ version: '3'
 
 services:
   web:
-    image: node
+    image: node:latest
     depends_on:
     - "api"
     environment:
-    - "apiurl=http://localhost:3000"
+    - VUE_APP_APIURL=http://localhost:3000
     command:
       - /bin/sh
       - -c
       - |
         cd code
         npm i
+        npm rebuild node-sass
         npm run serve
     volumes:
       - .:/code
