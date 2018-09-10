@@ -1,6 +1,6 @@
 <template lang="pug">
   .container
-    .row(@change="setScaleNotes(); setScaleRoman();")
+    .row(@change="getScaleNotes(); getScaleRoman();")
       .col.mb-3
         strong Note:
         select.form-control(v-model="note")
@@ -83,7 +83,7 @@ export default {
     Guitar
   },
   methods: {
-    async setScaleRoman() {
+    async getScaleRoman() {
       const { data } = await scaleMusic.get("/scale/roman", {
         params: {
           tonic: this.scale
@@ -91,7 +91,7 @@ export default {
       });
       this.scaleRoman = data;
     },
-    async setScaleNotes() {
+    async getScaleNotes() {
       const { data } = await scaleMusic.get("/scale/notes", {
         params: {
           note: this.note,
@@ -100,14 +100,17 @@ export default {
       });
       this.scaleNotes = data;
       this.scaleNote = this.scaleNotes[0];
+    },
+    async getScales() {
+      const { data } = await scaleMusic.get("/scales");
+      this.scales = data;
+      this.scale = this.scales[0];
     }
   },
   async mounted() {
-    const { data } = await scaleMusic.get("/scale/names");
-    this.scales = data;
-    this.scale = this.scales[0];
-    this.setScaleNotes();
-    this.setScaleRoman();
+    await this.getScales();
+    await this.getScaleNotes();
+    await this.getScaleRoman();
   }
 };
 </script>
