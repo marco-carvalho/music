@@ -1,6 +1,6 @@
 <template lang="pug">
   .container
-    .row(@change="getScaleNotes(); getScaleRoman();")
+    .row(@change="getScaleNotes()")
       .col.mb-3
         strong Note:
         select.form-control(v-model="note")
@@ -12,10 +12,6 @@
     hr
     .row.no-gutters
       .col(v-for="(note, index) in notesByNote")
-        .p-1.border.text-center(v-if="scaleNotes.includes(note)" :class="['bg-' + colorsByNote[index]]")
-          .font-weight-bold.text-white.text-shadow {{scaleRoman[scaleNotes.indexOf(note)]}}
-        .p-1.border.text-center(v-else :class="'opacity-25'")
-          .font-weight-bold.text-white.text-shadow -
         .p-1.border.text-center(:class="[scaleNotes.includes(note) ? ['bg-' + colorsByNote[index]] : 'opacity-25']")
           .font-weight-bold.text-white.text-shadow {{note}}
     hr
