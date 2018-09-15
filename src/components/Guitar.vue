@@ -3,7 +3,7 @@
     .row(v-for="i in tuning")
       .col.p-0.border(v-for="note in guitar.notes.slice(i, 13 + i)" @click="start(note.frequency)")
         .text-center(:class="[scaleNotes.includes(note.name) ? ['bg-' + noteColor.find(x => x.note === note.name).color] : 'opacity-25']")
-          .font-weight-bold.text-white.text-shadow {{note.name + note.octave}}
+          .font-weight-bold.text-white.text-shadow {{note.name}}
 </template>
 
 <script>
