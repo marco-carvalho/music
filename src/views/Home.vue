@@ -79,14 +79,6 @@ export default {
     Guitar
   },
   methods: {
-    async getScaleRoman() {
-      const { data } = await scaleMusic.get("/scale/roman", {
-        params: {
-          tonic: this.scale
-        }
-      });
-      this.scaleRoman = data;
-    },
     async getScaleNotes() {
       const { data } = await scaleMusic.get("/scale/notes", {
         params: {
@@ -106,7 +98,6 @@ export default {
   async mounted() {
     await this.getScales();
     await this.getScaleNotes();
-    await this.getScaleRoman();
   }
 };
 </script>
