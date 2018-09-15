@@ -2,11 +2,11 @@
   .container
     .row(@change="getScaleNotes()")
       .col.mb-3
-        strong Note:
+        strong Nota:
         select.form-control(v-model="note")
           option(v-for="note in notes") {{note}}
       .col.mb-3
-        strong Scale:
+        strong Escala:
         select.form-control(v-model="scale" )
           option(v-for="scale in scales") {{scale}}
     hr
