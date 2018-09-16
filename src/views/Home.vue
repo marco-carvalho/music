@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       note: "C",
-      notes: ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"],
+      notes: ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"],
       colors: [
         "gray",
         "gray-red",
@@ -44,16 +44,16 @@ export default {
       ],
       noteColor: [
         { note: "C", color: "gray" },
-        { note: "C#", color: "gray-red" },
+        { note: "C#/Db", color: "gray-red" },
         { note: "D", color: "red" },
-        { note: "D#", color: "red-orange" },
+        { note: "D#/Eb", color: "red-orange" },
         { note: "E", color: "orange" },
         { note: "F", color: "yellow" },
-        { note: "F#", color: "yellow-green" },
+        { note: "F#/Gb", color: "yellow-green" },
         { note: "G", color: "green" },
-        { note: "G#", color: "green-blue" },
+        { note: "G#/Ab", color: "green-blue" },
         { note: "A", color: "blue" },
-        { note: "A#", color: "blue-purple" },
+        { note: "A#/Bb", color: "blue-purple" },
         { note: "B", color: "purple" }
       ],
       scale: null,
