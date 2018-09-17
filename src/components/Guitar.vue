@@ -1,8 +1,8 @@
 <template lang="pug">
   div
-    .row
-      .col-1.p-0.border(v-for="i in tuning" @click="start(note.frequency)")
-        .text-center.py-1.border(v-for="note in guitar.notes.slice(i, 13 + i)" :class="[scaleNotes.includes(note.name) ? ['bg-' + noteColor.find(x => x.note === note.name).color] : 'opacity-25']")
+    .row(v-for="i in tuning")
+      .col.p-0.border(v-for="note in guitar.notes.slice(i, 13 + i)" @click="start(note.frequency)")
+        .text-center(:class="[scaleNotes.includes(note.name) ? ['bg-' + noteColor.find(x => x.note === note.name).color] : 'opacity-25']")
           .font-weight-bold.text-white.text-shadow {{note.name}}
 </template>
 
@@ -15,12 +15,12 @@ export default {
     return {
       ctx: new (window.AudioContext || window.webkitAudioContext)(),
       tuning: {
-        1: 28,
-        2: 23,
-        3: 19,
-        4: 14,
-        5: 9,
-        6: 4
+        1: 4,
+        2: 9,
+        3: 14,
+        4: 19,
+        5: 23,
+        6: 28
       },
       guitar: {
         notes: [
