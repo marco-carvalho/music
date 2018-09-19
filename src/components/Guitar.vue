@@ -1,11 +1,17 @@
 <template lang="pug">
   div
     .row.text-center
-      .col.p-0(v-for="(note, index) in guitar.notes.slice(0, size)") {{index}}
-    .row(v-for="i in tuning")
-      .col.p-0.border(v-for="note in guitar.notes.slice(i, size + i)" @click="start(note.frequency)")
-        .text-center(:class="[scaleNotes.includes(note.name) ? ['bg-' + noteColor.find(x => x.note === note.name).color] : 'opacity-25']")
-          .font-weight-bold.text-white.text-shadow {{note.name}}
+      .col.p-0(v-for="(note, index) in size")
+        .row.no-gutters
+          .col {{index}}
+          .col.p-0(v-if="index === 0")
+    .row(v-for="string in strings")
+      .col.p-0(v-for="(note, index) in guitar.notes.slice(string, size + string)" @click="start(note.frequency)")
+        .row.no-gutters
+          .col.p-0.border
+            .text-center(:class="scaleNotes.includes(note.name) ? 'bg-' + noteColor.find(x => x.note === note.name).color : 'opacity-25'")
+              .font-weight-bold.text-white.text-shadow {{note.name}}
+          .col.p-0(v-if="index === 0")
 </template>
 
 <script>
@@ -17,14 +23,14 @@ export default {
     return {
       size: 13,
       ctx: new (window.AudioContext || window.webkitAudioContext)(),
-      tuning: {
-        1: 4,
-        2: 9,
-        3: 14,
-        4: 19,
-        5: 23,
-        6: 28
-      },
+      strings: [
+        4,
+        9,
+        14,
+        19,
+        23,
+        28
+      ],
       guitar: {
         notes: [
           { name: "C", octave: 2 },
