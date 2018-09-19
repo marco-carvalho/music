@@ -1,16 +1,16 @@
 <template lang="pug">
   div
-    .row.text-center
+    .row.no-gutters.text-center
       .col.p-0(v-for="(note, index) in size")
         .row.no-gutters
           .col.p-0
             .font-weight-bold.text-white.text-shadow {{index}}
           .col.p-0(v-if="index === 0")
-    .row(v-for="string in strings")
+    .row.no-gutters.text-center(v-for="string in strings")
       .col.p-0(v-for="(note, index) in guitar.notes.slice(string, size + string)" @click="start(note.frequency)")
         .row.no-gutters
           .col.p-0.border
-            .text-center(:class="scaleNotes.includes(note.name) ? 'bg-' + noteColor.find(x => x.note === note.name).color : 'opacity-25'")
+            div(:class="scaleNotes.includes(note.name) ? 'bg-' + noteColor.find(x => x.note === note.name).color : 'opacity-25'")
               .font-weight-bold.text-white.text-shadow {{note.name}}
           .col.p-0(v-if="index === 0")
 </template>

@@ -15,8 +15,7 @@
         .p-1.border.text-center(:class="[scaleNotes.includes(note) ? ['bg-' + colorsByNote[index]] : 'opacity-25']")
           .font-weight-bold.text-white.text-shadow {{note}}
     hr
-    .container-fluid
-      Guitar(:noteColor="noteColor" :scaleNotes="scaleNotes")
+    Guitar(:noteColor="noteColor" :scaleNotes="scaleNotes")
 </template>
 
 <script>
