@@ -3,7 +3,8 @@
     .row.text-center
       .col.p-0(v-for="(note, index) in size")
         .row.no-gutters
-          .col {{index}}
+          .col.p-0
+            .font-weight-bold.text-white.text-shadow {{index}}
           .col.p-0(v-if="index === 0")
     .row(v-for="string in strings")
       .col.p-0(v-for="(note, index) in guitar.notes.slice(string, size + string)" @click="start(note.frequency)")
