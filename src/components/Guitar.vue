@@ -7,7 +7,7 @@
             .font-weight-bold.text-white.text-shadow {{index}}
           .col.p-0(v-if="index === 0")
     .row.no-gutters.text-center(v-for="string in strings")
-      .col.p-0(v-for="(note, index) in guitar.notes.slice(string, size + string)" @click="start(note.frequency)")
+      .col.p-0(v-for="(note, index) in guitar.notes.slice(string, size + string)" @click="start(note)")
         .row.no-gutters
           .col.p-0.border
             div(:class="scaleNotes.includes(note.name) ? 'bg-' + noteColor.find(x => x.note === note.name).color : 'opacity-25'")
@@ -16,22 +16,15 @@
 </template>
 
 <script>
-import scaleMusic from "@/services/scaleMusic"
-
+var Soundfont = require("soundfont-player");
+var context = new (window.AudioContext || window.webkitAudioContext)();
 export default {
   props: ["noteColor", "scaleNotes"],
   data() {
     return {
       size: 13,
       ctx: new (window.AudioContext || window.webkitAudioContext)(),
-      strings: [
-        4,
-        9,
-        14,
-        19,
-        23,
-        28
-      ],
+      strings: [4, 9, 14, 19, 23, 28],
       guitar: {
         notes: [
           { name: "C", octave: 2 },
@@ -90,25 +83,15 @@ export default {
     };
   },
   methods: {
-    start(frequency) {
-      this.ctx.resume();
-      let osc = this.ctx.createOscillator();
-      osc.frequency.value = frequency;
-      osc.start();
-      osc.connect(this.ctx.destination);
-      osc.stop(this.ctx.currentTime + 0.5);
-    }
-  },
-  mounted() {
-    this.guitar.notes.forEach(async note => {
-      const {data} = await scaleMusic.get("note/freq", {
-        params: {
-          note: note.name,
-          oct: note.octave
-        }
+    start(note) {
+      Soundfont.instrument(context, "acoustic_guitar_nylon").then(function(
+        clavinet
+      ) {
+        var noteWithOctave = note.name.split("/")[0] + note.octave;
+        console.log(noteWithOctave);
+        clavinet.play(noteWithOctave);
       });
-      note.frequency = data;
-    });
+    }
   }
 };
 </script>
