@@ -16,14 +16,15 @@
 </template>
 
 <script>
-var Soundfont = require("soundfont-player");
+
+import scaleMusic from "@/services/scaleMusic"
 var context = new (window.AudioContext || window.webkitAudioContext)();
+
 export default {
   props: ["noteColor", "scaleNotes"],
   data() {
     return {
       size: 13,
-      ctx: new (window.AudioContext || window.webkitAudioContext)(),
       strings: [4, 9, 14, 19, 23, 28],
       guitar: {
         notes: [
@@ -84,14 +85,22 @@ export default {
   },
   methods: {
     start(note) {
-      Soundfont.instrument(context, "acoustic_guitar_nylon").then(function(
-        clavinet
-      ) {
-        var noteWithOctave = note.name.split("/")[0] + note.octave;
-        console.log(noteWithOctave);
-        clavinet.play(noteWithOctave);
-      });
+      scaleMusic.get("sounds", {
+        params: {
+          note: note.name,
+          oct: note.octave
+        },
+         responseType: 'arraybuffer',
+      }).then(function(response){
+        playSound(response.data,context)
+      })
     }
-  }
+  },
 };
+  function playSound(data,ctx){
+      var source = ctx.createBufferSource();
+      context.decodeAudioData(data, function(buffer) { source.buffer = buffer;}, null);
+      source.connect(ctx.destination);
+      source.start(0);
+  }
 </script>
