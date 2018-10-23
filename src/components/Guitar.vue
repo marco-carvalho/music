@@ -10,14 +10,13 @@
       .col.p-0(v-for="(note, index) in guitar.notes.slice(string, size + string)" @click="start(note)")
         .row.no-gutters
           .col.p-0.border
-            div(:class="scaleNotes.includes(note.name) ? 'bg-' + noteColor.find(x => x.note === note.name).color : 'opacity-25'")
+            div(:class="noteMidi.includes(note.name+note.octave) ? 'bg-' + noteColor.find(x => x.note == note.name).color : 'opacity-25'")
               .font-weight-bold.text-white.text-shadow {{note.name}}
           .col.p-0(v-if="index === 0")
 </template>
 
 <script>
 import scaleMusic from "@/services/scaleMusic";
-//var midi = require('./../services/midi.js');
 var context = new (window.AudioContext || window.webkitAudioContext)();
 import MIDI  from "midi.js";
 
@@ -26,6 +25,7 @@ export default {
   data() {
     return {
       size: 13,
+      noteMidi: "C",
       strings: [4, 9, 14, 19, 23, 28],
       guitar: {
         notes: [
@@ -94,19 +94,17 @@ export default {
         soundfontUrl: "http://gleitz.github.io/midi-js-soundfonts/MusyngKite/",
         instrument: "acoustic_guitar_nylon",
         onprogress: function(state, progress) {
-          console.log(state, progress);
+          //MIDI.loader.setValue(progress * 100);
         },
         onsuccess: function() {
-          var delay = 0; // play one note every quarter second
-          var note = 50; // the MIDI note
-          var velocity = 127; // how hard the note hits
           var player = MIDI.Player;
           player.loadFile(song, player.start);
-
+          player.timeWarp = 1;
           player.addListener(function(data) {
             var pianoKey = data.note;
 
             console.log(MIDI.noteToKey[pianoKey]);
+            $vm0.$data.noteMidi = MIDI.noteToKey[pianoKey];
           });
           //player.start()
           //midijs.noteOn(0, 50, 127, startingPoint);
