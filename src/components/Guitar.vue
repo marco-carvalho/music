@@ -85,8 +85,30 @@ export default {
       }
     };
   },
+
+  created() {
+    this.$parent.$on("myevent", (e) => {
+      if(e != undefined){
+        console.log(e)
+      }
+      this.playMusic()
+    });
+  },
+
   methods: {
     start(note) {
+      scaleMusic.get("sounds", {
+        params: {
+          note: note.name,
+          oct: note.octave
+        },
+         responseType: 'arraybuffer',
+      }).then(function(response){
+         playSound(response.data,context)
+      })
+    },
+
+    playMusic(){
       let self = this;
       //TODO put base64 code into a js in scalemusicAPI
       const song =
@@ -95,13 +117,10 @@ export default {
       MIDI.loadPlugin({
         soundfontUrl: "http://gleitz.github.io/midi-js-soundfonts/MusyngKite/",
         instrument: "acoustic_guitar_nylon",
-        onprogress: function(state, progress) {
-          //MIDI.loader.setValue(progress * 100);
-        },
         onsuccess: function() {
           let player = MIDI.Player;
           player.loadFile(song, player.start);
-          player.timeWarp = 6;
+          player.timeWarp = 2;
           player.addListener(function(data) {
             let pianoKey = data.note;
 
@@ -110,34 +129,27 @@ export default {
             self.noteMidi = MIDI.noteToKey[pianoKey];
           });
 
-          MIDI.Player.setAnimation(function(data) {
-            var now = data.now; // where we are now
-            var end = data.end; // time when song ends
-            var events = data.events; // all the notes currently being processed
-            //console.log(data.events)
-            // then do what you want with the information!
-        });
+        //   MIDI.Player.setAnimation(function(data) {
+        //     // var now = data.now; // where we are now
+        //     // var end = data.end; // time when song ends
+        //     // var events = data.events; // all the notes currently being processed
+        //     //console.log(data.events)
+        //     // then do what you want with the information!
+        // });
           //player.start()
           //midijs.noteOn(0, 50, 127, startingPoint);
           //midijs.noteOn(0, note, velocity, delay);
         }
       });
-      // scaleMusic.get("sounds", {
-      //   params: {
-      //     note: note.name,
-      //     oct: note.octave
-      //   },
-      //    responseType: 'arraybuffer',
-      // }).then(function(response){
-      //  // playSound(response.data,context)
-      // })
     }
   }
 };
-// function playSound(data,ctx){
-//     var source = ctx.createBufferSource();
-//     context.decodeAudioData(data, function(buffer) { source.buffer = buffer;}, null);
-//     source.connect(ctx.destination);
-//     source.start(0);
-// }
+
+function playSound(data,ctx){
+    var source = ctx.createBufferSource();
+    context.decodeAudioData(data, function(buffer) { source.buffer = buffer;}, null);
+    source.connect(ctx.destination);
+    source.start(0);
+}
+
 </script>

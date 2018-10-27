@@ -9,6 +9,8 @@
         strong Escala:
         select.form-control(v-model="scale" )
           option(v-for="scale in scales") {{scale}}
+      .col.mb-3
+         button(type='button' class="pure-button pure-button-primary"  @click="playMusic()") play
     hr
     .row.no-gutters
       .col(v-for="(note, index) in notesByNote")
@@ -78,6 +80,11 @@ export default {
     Guitar
   },
   methods: {
+
+    playMusic(){
+      this.$emit("myevent")
+    },
+
     async getScaleNotes() {
       const { data } = await scaleMusic.get("/scale/notes", {
         params: {
@@ -97,6 +104,6 @@ export default {
   async mounted() {
     await this.getScales();
     await this.getScaleNotes();
-  }
+  },
 };
 </script>
