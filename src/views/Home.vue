@@ -9,6 +9,11 @@
         strong Escala:
         select.form-control(v-model="scale" )
           option(v-for="scale in scales") {{scale}}
+    .row(@change="setMidi()")
+      .col.mb-3
+        strong Midi:
+        select.form-control(v-model="midi" )
+          option(v-for="midi in midis") {{midi.name}}
       .col.mb-3
          button(type='button' class="pure-button pure-button-primary"  @click="playMusic()") play
     hr
@@ -17,7 +22,7 @@
         .p-1.border.text-center(:class="[scaleNotes.includes(note) ? ['bg-' + colorsByNote[index]] : 'opacity-25']")
           .font-weight-bold.text-white.text-shadow {{note}}
     hr
-    Guitar(:noteColor="noteColor" :scaleNotes="scaleNotes")
+    Guitar(:noteColor="noteColor" :scaleNotes="scaleNotes" :midiFile="midiFile")
 </template>
 
 <script>
@@ -61,7 +66,10 @@ export default {
       scales: [],
       scaleNote: null,
       scaleNotes: [],
-      scaleRoman: []
+      scaleRoman: [],
+      midi: null,
+      midiFile: null,
+      midis: [],
     };
   },
   computed: {
@@ -85,6 +93,13 @@ export default {
       this.$emit("myevent")
     },
 
+    getMidi(){
+      this.midis = [{name: "Happy Birthday - F Maior", file: "data:audio/mid;base64,TVRoZAAAAAYAAQACAQBNVHJrAAAAGgD/WAQEAhgIAP9ZAv8AAP9YBAMCGAgB/y8ATVRyawAAAagAsFsyALAKSQCwWzIAsApJALAAAACwIAAAwAAAkDxGgS2QPAATkDxIOpA8AAaQPlMAkDVJAJA5SIFnkD4AGZA8SIFnkDwAGZBBVYFOkDUAAJA5ABmQQQAZkEBPAJAwUQCQOlGDTpBAADKQPEeBLZA8ABOQPEgOkDAAAJA6ACyQPAAGkD5VAJAwUACQOk+BZ5A+ABmQPEWBZ5A8ABmQQ1qBTpAwAACQOgAZkEMAGZBBSwCQNUkAkDlJg06QQQAykDxFgS2QPAATkDxKDpA1AACQOQAskDwABpBIYwCQNU0AkDlPgWeQSAAZkEVKgWeQRQAZkEFCgU6QNQAAkDkAGZBBABmQQEkAkDVRAJA6VIFnkEAAGZA+RYFH/1EDOThwIJA+AAD/UQMJJ8AZkEZZgS2QRgAB/1EDOThwEpBGTg6QNQAAkDoAAP9RAwknwCyQRgAGkEVMAJA1SwCQOUuBZ5BFABmQQUGBTpA1AACQOQAZkEEAGZBDTQCQME4AkDpPgWeQQwAAkDAAAJA6ABmQQUkAkDVMAJA5TIVOkEEAAJA1AACQOQAB/y8A"}];
+    },
+    setMidi(){
+      this.midiFile = this.midis[0].file
+    },
+
     async getScaleNotes() {
       const { data } = await scaleMusic.get("/scale/notes", {
         params: {
@@ -104,6 +119,7 @@ export default {
   async mounted() {
     await this.getScales();
     await this.getScaleNotes();
+    this.getMidi();
   },
 };
 </script>
