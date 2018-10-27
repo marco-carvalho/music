@@ -91,6 +91,7 @@ export default {
       if(e != undefined){
         console.log(e)
       }
+      console.log(this.midiFile)
       this.playMusic(this.midiFile);
     });
   },
@@ -118,7 +119,7 @@ export default {
         onsuccess: function() {
           let player = MIDI.Player;
           MIDI.programChange(0, MIDI.GM.byName["acoustic_guitar_nylon"].number)
-          player.timeWarp = 1.5;
+          player.timeWarp = 1.7;
           player.loadFile(song, player.start);
           player.addListener(function(data) {
             let note = data.note;
