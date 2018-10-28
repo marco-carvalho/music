@@ -125,7 +125,7 @@ export default {
           let player = MIDI.Player;
           self.playng = true;
           MIDI.programChange(0, MIDI.GM.byName["acoustic_guitar_nylon"].number);
-          player.timeWarp = 1;
+          player.timeWarp = 1.5;
           player.loadFile(song, player.start);
           player.addListener(function(data) {
             let note = data.note;
