@@ -9,10 +9,12 @@
     .row.no-gutters.text-center(v-for="string in strings")
       .col.p-0(v-for="(note, index) in guitar.notes.slice(string, size + string)" @click="start(note)")
         .row.no-gutters
-          .col.p-0.border
-
+          .col.p-0.border(v-if="playng==true")
             div(:class="noteMidi.includes(note.name.includes('/') ? note.name.split('/')[1]+note.octave : note.name+note.octave) ? 'bg-' + noteColor.find(x => x.note == note.name).color : 'opacity-25'")
               .font-weight-bold.text-white.text-shadow {{note.name + note.octave}}
+          .col.p-0.border(v-else)
+             div(:class="scaleNotes.includes(note.name) ? 'bg-' + noteColor.find(x => x.note === note.name).color : 'opacity-25'")
+              .font-weight-bold.text-white.text-shadow {{note.name}}
           .col.p-0(v-if="index === 0")
 </template>
 
@@ -25,6 +27,7 @@ export default {
   props: ["noteColor", "scaleNotes", "midiFile"],
   data() {
     return {
+      playng: false,
       size: 13,
       noteMidi: "",
       strings: [4, 9, 14, 19, 23, 28],
@@ -91,7 +94,6 @@ export default {
       if(e != undefined){
         console.log(e)
       }
-      console.log(this.midiFile)
       this.playMusic(this.midiFile);
     });
   },
@@ -111,6 +113,7 @@ export default {
 
     playMusic(song){
       let self = this;
+      this.playng = true;
       //TODO put base64 code into a js in scalemusicAPI
 
       MIDI.loadPlugin({
@@ -119,7 +122,7 @@ export default {
         onsuccess: function() {
           let player = MIDI.Player;
           MIDI.programChange(0, MIDI.GM.byName["acoustic_guitar_nylon"].number)
-          player.timeWarp = 1.7;
+          player.timeWarp = 1;
           player.loadFile(song, player.start);
           player.addListener(function(data) {
             let note = data.note;
@@ -129,6 +132,11 @@ export default {
             }
             else{
               self.noteMidi = ""
+            }
+            if(MIDI.Player.endTime - MIDI.Player.currentTime <= 1.953125 )
+            {
+              console.log("seting playng=false")
+              self.playng = false;
             }
           });
 
@@ -147,6 +155,7 @@ export default {
           //midijs.noteOn(0, note, velocity, delay);
         }
       });
+      //this.playng = false;
     }
   }
 };

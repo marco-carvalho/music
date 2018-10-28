@@ -120,9 +120,9 @@ export default {
     }
   },
   async mounted() {
+    this.getMidi();
     await this.getScales();
     await this.getScaleNotes();
-    this.getMidi();
   },
 };
 </script>
