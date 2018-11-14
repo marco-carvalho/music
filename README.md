@@ -1,3 +1,6 @@
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/marco-carvalho/music.svg)](https://greenkeeper.io/)
+
 [travis-image]: https://travis-ci.org/marco-carvalho/music.svg
 [travis-url]: https://travis-ci.org/marco-carvalho/music
 [david-dm-image]: https://david-dm.org/marco-carvalho/music/status.svg
