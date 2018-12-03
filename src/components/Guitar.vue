@@ -1,18 +1,18 @@
 <template lang="pug">
-  div
-    .row.no-gutters.text-center
-      .col.p-0(v-for="(note, index) in size")
-        .row.no-gutters
-          .col.p-0
-            .font-weight-bold.text-white.text-shadow {{index}}
-          .col.p-0(v-if="index === 0")
-    .row.no-gutters.text-center(v-for="string in strings")
-      .col.p-0(v-for="(note, index) in guitar.notes.slice(string, size + string)" @click="start(note)")
-        .row.no-gutters
-          .col.p-0.border
-            div(:class="scaleNotes.includes(note.name) ? 'bg-' + noteColor.find(x => x.note === note.name).color : 'opacity-25'")
-              .font-weight-bold.text-white.text-shadow {{note.name}}
-          .col.p-0(v-if="index === 0")
+div
+  .row.no-gutters.text-center
+    .col.p-0(v-for="(note, index) in size")
+      .row.no-gutters
+        .col.p-0
+          .font-weight-bold.text-white.text-shadow {{index}}
+        .col.p-0(v-if="index === 0")
+  .row.no-gutters.text-center(v-for="string in strings")
+    .col.p-0(v-for="(note, index) in guitar.notes.slice(string, size + string)" @click="start(note)")
+      .row.no-gutters
+        .col.p-0.border
+          div(:class="scaleNotes.includes(note.name) ? 'bg-' + noteColor.find(x => x.note === note.name).color : 'opacity-25'")
+            .font-weight-bold.text-white.text-shadow {{note.name}}
+        .col.p-0(v-if="index === 0")
 </template>
 
 <script>

@@ -1,21 +1,21 @@
 <template lang="pug">
-  .container
-    .row(@change="getScaleNotes()")
-      .col.mb-3
-        strong Nota:
-        select.form-control(v-model="note")
-          option(v-for="note in notes") {{note}}
-      .col.mb-3
-        strong Escala:
-        select.form-control(v-model="scale" )
-          option(v-for="scale in scales") {{scale}}
-    hr
-    .row.no-gutters
-      .col(v-for="(note, index) in notesByNote")
-        .p-1.border.text-center(:class="[scaleNotes.includes(note) ? ['bg-' + colorsByNote[index]] : 'opacity-25']")
-          .font-weight-bold.text-white.text-shadow {{note}}
-    hr
-    Guitar(:noteColor="noteColor" :scaleNotes="scaleNotes")
+.container
+  .row(@change="getScaleNotes()")
+    .col.mb-3
+      strong Nota:
+      select.form-control(v-model="note")
+        option(v-for="note in notes") {{note}}
+    .col.mb-3
+      strong Escala:
+      select.form-control(v-model="scale" )
+        option(v-for="scale in scales") {{scale}}
+  hr
+  .row.no-gutters
+    .col(v-for="(note, index) in notesByNote")
+      .p-1.border.text-center(:class="[scaleNotes.includes(note) ? ['bg-' + colorsByNote[index]] : 'opacity-25']")
+        .font-weight-bold.text-white.text-shadow {{note}}
+  hr
+  Guitar(:noteColor="noteColor" :scaleNotes="scaleNotes")
 </template>
 
 <script>
