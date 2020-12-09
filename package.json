@@ -28,7 +28,7 @@
     "eslint-plugin-vue": "^6.2.2",
     "node-sass": "^4.14.1",
     "pug": "^2.0.4",
-    "pug-plain-loader": "^1.0.0",
+    "pug-plain-loader": "^1.1.0",
     "sass-loader": "^9.0.3",
     "lint-staged": "^10.2.11",
     "vue-template-compiler": "^2.6.12"
