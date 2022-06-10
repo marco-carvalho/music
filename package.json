@@ -17,7 +17,7 @@
     "popper.js": "^1.16.1",
     "soundfont-player": "^0.12.0",
     "vue": "^3.2.37",
-    "vue-router": "^4.0.15"
+    "vue-router": "^4.0.16"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^5.0.4",
